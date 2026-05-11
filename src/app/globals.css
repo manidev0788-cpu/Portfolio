@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+/* Token map for Tailwind utilities + future motion theming */
+@theme inline {
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+
+  --color-surface-deep: #071d1d;
+  --color-surface-glass: rgb(124 247 212 / 0.04);
+
+  --color-foreground: #ffffff;
+  --color-muted: rgb(237 237 237 / 0.72);
+
+  --color-accent-start: #7cf7d4;
+  --color-accent-end: #d9ff63;
+}
+
+/* Reusable horizontal rhythm + animation-friendly max widths */
+@layer utilities {
+  .container-app {
+    width: min(71.25rem, 100%);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-app {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-app {
+      padding-inline: 2rem;
+    }
+  }
+
+  .text-gradient-primary {
+    background-image: linear-gradient(
+      115deg,
+      var(--color-accent-start) 0%,
+      var(--color-accent-end) 92%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Skills marquee — outside @layer so keyframes always emit */
+@keyframes marquee-skills-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee-skills__track {
+  animation: marquee-skills-scroll var(--marquee-skills-duration, 60s) linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-skills__track {
+    animation: none;
+  }
+
+  .marquee-skills__viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}
+
+/* Full-page loader — bottom accent bar */
+@keyframes page-loader-bar {
+  0% {
+    transform: translate3d(-102%, 0, 0);
+  }
+  100% {
+    transform: translate3d(320%, 0, 0);
+  }
+}
+
+.page-loader-bar {
+  animation: page-loader-bar 1.05s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-loader-bar {
+    animation: none;
+    transform: translate3d(0, 0, 0);
+    width: 100%;
+    opacity: 0.35;
+  }
+}
+
+/* About section — slow orbit rotation (GPU-friendly linear spin) */
+@keyframes about-orbit-spin {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(0, 0, 0) rotate(360deg);
+  }
+}
+
+.about-orbit-ring {
+  --about-orbit-duration: 21s;
+  animation: about-orbit-spin var(--about-orbit-duration) linear infinite;
+  transform-origin: 50% 50%;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.about-orbit-ring--paused {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-orbit-ring {
+    animation: none;
+  }
+}
+
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100dvh;
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--color-surface-deep);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01" on, "cv11" on;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  position: relative;
+  isolation: isolate;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 110% 80% at 50% -25%,
+      rgb(124 247 212 / 0.09),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 100% 0%,
+      rgb(217 255 99 / 0.055),
+      transparent 48%
+    ),
+    radial-gradient(
+      circle at 0% 100%,
+      rgb(124 247 212 / 0.04),
+      transparent 42%
+    );
+}
+
+::selection {
+  background-color: color-mix(in oklab, var(--color-accent-start) 34%, transparent);
+  color: var(--color-surface-deep);
+}
+
+img,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+:focus-visible {
+  outline: 2px solid color-mix(in oklab, var(--color-accent-start) 70%, white);
+  outline-offset: 3px;
+}
