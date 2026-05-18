@@ -1,11 +1,8 @@
 import Footer from "@/components/Footer";
 import SkillsPage from "@/sections/SkillsPage";
+import { skillsMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
-  title: "My Skills — Portfolio",
-  description:
-    "Long-form breakdown of frontend, backend & database, CMS and eCommerce, core delivery services, and AI-enabled solutions—with practical delivery context.",
-};
+export const metadata = skillsMetadata;
 
 export default function SkillsRoute() {
   return (

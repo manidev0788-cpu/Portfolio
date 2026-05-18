@@ -329,11 +329,11 @@ export default function Faq() {
             <div className="relative flex h-full min-h-[12.5rem] min-w-0 flex-1 lg:min-h-[16rem]">
               <Image
                 src={FAQ_SIDE_VISUAL}
-                alt=""
+                alt="AI assistant illustration for portfolio frequently asked questions"
                 fill
                 className="rounded-[21px] object-contain p-4 sm:rounded-[23px] sm:p-6"
                 sizes="(max-width:1024px) 92vw, 560px"
-                priority={false}
+                loading="lazy"
               />
             </div>
           </motion.div>

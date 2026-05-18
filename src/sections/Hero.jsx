@@ -4,21 +4,37 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { Play, Plus } from "lucide-react";
+import { ArrowUpRight, Sparkles } from "lucide-react";
 
 import { cn } from "@/utils/cn";
 
-/** Put your portrait at `public/images/hero.png` (or change extension below). */
-const HERO_IMG = "/images/hero.png";
+const HERO_IMG = "/images/hero-new.png";
 
 /** Match Pixion: 12 even vertical tracks (pixel-consistent rhythm). */
 const GRID_COLUMNS = 12;
 
 const easeLux = [0.22, 1, 0.36, 1];
 
+const TECH_STACK = [
+  "React",
+  "Next.js",
+  "WordPress",
+  "Shopify",
+  "MongoDB",
+  "Supabase",
+  "AI Workflows",
+];
+
+const HERO_STATS = [
+  { value: "12+", label: "Years Experience" },
+  { value: "150+", label: "Projects" },
+  { value: "AI-Powered", label: "Solutions", accent: true },
+  { value: "Full Stack", label: "& CMS Expert" },
+];
+
 function StaticVerticalGrid({ className }) {
   return (
-    <div
+    <motion.div
       aria-hidden
       className={cn("pointer-events-none absolute inset-0", className)}
       style={{
@@ -37,7 +53,7 @@ function StaticVerticalGrid({ className }) {
 function MovingBeamsLayer({ prefersReducedMotion }) {
   if (prefersReducedMotion) {
     return (
-      <div
+      <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 grid"
         style={{ gridTemplateColumns: `repeat(${GRID_COLUMNS}, minmax(0, 1fr))` }}
@@ -45,12 +61,12 @@ function MovingBeamsLayer({ prefersReducedMotion }) {
         {Array.from({ length: GRID_COLUMNS }).map((_, i) => (
           <div key={String(i)} className="min-w-0" />
         ))}
-      </div>
+      </motion.div>
     );
   }
 
   return (
-    <div
+    <motion.div
       className="pointer-events-none absolute inset-0 grid"
       aria-hidden
       style={{ gridTemplateColumns: `repeat(${GRID_COLUMNS}, minmax(0, 1fr))` }}
@@ -81,14 +97,150 @@ function MovingBeamsLayer({ prefersReducedMotion }) {
           </div>
         );
       })}
+    </motion.div>
+  );
+}
+
+function AnimatedPortraitGlow({ prefersReducedMotion }) {
+  return (
+    <>
+      <motion.div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute z-0 rounded-[50%]",
+          "bottom-[-6%] left-1/2 h-[min(88vw,640px)] w-[min(98vw,700px)] -translate-x-[46%]",
+          "sm:bottom-[-8%] sm:h-[min(82vw,680px)] sm:w-[min(94vw,720px)] sm:-translate-x-[48%]",
+          "lg:inset-auto lg:bottom-[-10%] lg:right-[-20%] lg:left-auto lg:h-[min(78vh,820px)] lg:w-[min(72vw,820px)] lg:translate-x-0",
+          "xl:bottom-[-12%] xl:right-[-16%] xl:h-[min(82vh,880px)] xl:w-[min(68vw,860px)]"
+        )}
+        animate={
+          prefersReducedMotion
+            ? undefined
+            : {
+                opacity: [0.72, 0.92, 0.78, 0.88],
+                scale: [1, 1.04, 0.98, 1.02, 1],
+              }
+        }
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        style={{
+          background:
+            "radial-gradient(ellipse 78% 64% at 72% 88%, rgba(211, 255, 154, 0.28) 0%, rgba(165, 244, 202, 0.14) 36%, rgba(124, 247, 212, 0.08) 52%, transparent 70%)",
+          filter: "blur(56px)",
+        }}
+      />
+      <motion.div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute z-0 rounded-[45%]",
+          "bottom-[2%] right-[2%] h-[min(62vw,420px)] w-[min(70vw,480px)]",
+          "lg:bottom-[0%] lg:right-[-8%] lg:h-[min(52vh,520px)] lg:w-[min(48vw,520px)]",
+          "xl:bottom-[-2%] xl:right-[-4%]"
+        )}
+        animate={
+          prefersReducedMotion
+            ? undefined
+            : {
+                opacity: [0.6, 0.85, 0.7],
+                rotate: [0, 3, -2, 0],
+              }
+        }
+        transition={{
+          duration: 16,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1.2,
+        }}
+        style={{
+          background:
+            "conic-gradient(from 210deg at 68% 78%, rgba(193, 255, 114, 0.2), rgba(124, 247, 212, 0.12) 35%, rgba(217, 255, 99, 0.08) 55%, transparent 72%)",
+          filter: "blur(44px)",
+        }}
+      />
+      <motion.div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute z-[0] rounded-full",
+          "left-1/2 top-[18%] h-[min(42vw,280px)] w-[min(48vw,320px)] -translate-x-1/2",
+          "lg:left-auto lg:right-[8%] lg:top-[22%] lg:translate-x-0 lg:h-[min(36vh,340px)] lg:w-[min(32vw,360px)]"
+        )}
+        animate={
+          prefersReducedMotion
+            ? undefined
+            : {
+                scale: [1, 1.08, 0.96, 1.05, 1],
+                opacity: [0.35, 0.55, 0.42, 0.5],
+              }
+        }
+        transition={{
+          duration: 9,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 0.4,
+        }}
+        style={{
+          background:
+            "radial-gradient(circle at 50% 50%, rgba(124, 247, 212, 0.22) 0%, rgba(124, 247, 212, 0.06) 42%, transparent 68%)",
+          filter: "blur(32px)",
+        }}
+      />
+    </>
+  );
+}
+
+function RevealBlock({ children, className, delay = 0, prefersReducedMotion }) {
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: prefersReducedMotion ? 0 : 22,
+        filter: prefersReducedMotion ? "blur(0px)" : "blur(8px)",
+      }}
+      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      transition={{
+        duration: prefersReducedMotion ? 0.35 : 0.72,
+        delay,
+        ease: easeLux,
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function RevealLines({ lines, className, lineClassName, delay = 0, prefersReducedMotion }) {
+  return (
+    <div className={className}>
+      {lines.map((line, i) => (
+        <span key={line} className="block overflow-hidden">
+          <motion.span
+            className={cn("block", lineClassName)}
+            initial={{
+              opacity: 0,
+              y: prefersReducedMotion ? 0 : "108%",
+            }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: prefersReducedMotion ? 0.3 : 0.68,
+              delay: delay + i * 0.1,
+              ease: easeLux,
+            }}
+          >
+            {line}
+          </motion.span>
+        </span>
+      ))}
     </div>
   );
 }
 
-/** Pixion-style light frosted cards (white glass on dark hero). */
-function FloatingGlassCard({
+function StatGlassCard({
+  stat,
   className,
-  children,
   delay = 0,
   prefersReducedMotion,
   floatDuration = 20,
@@ -97,44 +249,164 @@ function FloatingGlassCard({
     <motion.div
       initial={{
         opacity: 0,
-        y: prefersReducedMotion ? 0 : 22,
-        scale: prefersReducedMotion ? 1 : 0.98,
+        y: prefersReducedMotion ? 0 : 18,
+        scale: prefersReducedMotion ? 1 : 0.96,
       }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{
-        duration: prefersReducedMotion ? 0.42 : 0.64,
-        delay: prefersReducedMotion ? 0 : 0.16 + delay * 0.4,
+        duration: prefersReducedMotion ? 0.4 : 0.62,
+        delay: prefersReducedMotion ? 0 : 0.2 + delay * 0.12,
         ease: easeLux,
       }}
       className={cn(
-        "rounded-[13px]",
-        "border border-white/[0.34]",
-        "bg-white/[0.68]",
-        "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.52),0_10px_36px_-10px_rgb(0_0_0/0.12),0_2px_8px_-2px_rgb(0_0_0/0.05)]",
-        "backdrop-blur-[10px]",
+        "group/stat relative rounded-[14px]",
+        "border border-white/[0.38]",
+        "bg-white/[0.72]",
+        "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.58),0_12px_40px_-12px_rgb(0_0_0/0.14),0_0_0_1px_rgb(124_247_212/0.06)]",
+        "backdrop-blur-[12px]",
+        "transition-[box-shadow,border-color] duration-500",
+        "hover:border-white/[0.48] hover:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.62),0_16px_48px_-10px_rgb(0_0_0/0.16),0_0_24px_-4px_rgb(124_247_212/0.18)]",
         className
       )}
     >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -inset-px rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover/stat:opacity-100"
+        style={{
+          background:
+            "linear-gradient(135deg, rgba(124,247,212,0.2) 0%, transparent 42%, rgba(217,255,99,0.12) 100%)",
+        }}
+      />
       <motion.div
-        className="relative h-full w-full rounded-[inherit]"
+        className="relative rounded-[inherit] px-3 py-2.5 sm:px-3.5 sm:py-3"
         animate={
           prefersReducedMotion
             ? undefined
             : {
-                y: [0, -1.2, 0.9, -0.65, 0],
-                x: [0, 0.35, -0.25, 0.2, 0],
+                y: [0, -1.4, 1, -0.7, 0],
+                x: [0, 0.3, -0.2, 0.15, 0],
               }
         }
         transition={{
           duration: floatDuration,
           repeat: Infinity,
           ease: "easeInOut",
-          delay: 0.6 + delay * 1.55,
+          delay: 0.5 + delay * 1.4,
         }}
       >
-        {children}
+        <p
+          className={cn(
+            "text-[1.0625rem] font-bold tracking-[-0.03em] text-neutral-900 sm:text-[1.125rem]",
+            stat.accent &&
+              "bg-[linear-gradient(105deg,#0d4a42_0%,#1a6b5c_55%,#0a1818_100%)] bg-clip-text text-transparent"
+          )}
+        >
+          {stat.value}
+          {stat.accent && (
+            <Sparkles
+              className="ml-1 inline-block size-3.5 -translate-y-px text-[#1a6b5c] opacity-80"
+              aria-hidden
+            />
+          )}
+        </p>
+        <p className="mt-0.5 text-[0.6875rem] font-medium leading-snug tracking-[0.01em] text-neutral-600 sm:text-[0.71875rem]">
+          {stat.label}
+        </p>
+        <motion.div
+          aria-hidden
+          className="mt-2 h-0.5 rounded-full bg-[linear-gradient(90deg,#7cf7d4,#d9ff63)]"
+          initial={{ scaleX: 0, originX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: prefersReducedMotion ? 0 : 0.55,
+            delay: 0.35 + delay * 0.08,
+            ease: easeLux,
+          }}
+        />
       </motion.div>
+    </motion.div>
+  );
+}
+
+function PremiumPrimaryButton({ href, children, prefersReducedMotion }) {
+  return (
+    <motion.div
+      whileHover={
+        prefersReducedMotion
+          ? undefined
+          : { scale: 1.03, transition: { duration: 0.28, ease: easeLux } }
+      }
+      whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
+    >
+      <Link
+        href={href}
+        className={cn(
+          "group relative inline-flex min-h-11 items-center justify-center gap-2 overflow-hidden rounded-full",
+          "bg-[linear-gradient(105deg,#7cf7d4_0%,#a8f0d4_42%,#d9ff63_100%)]",
+          "px-8 py-2.5 text-[0.875rem] font-semibold text-[#0a1818]",
+          "shadow-[0_10px_32px_rgba(124,247,212,0.18),0_4px_14px_rgba(0,0,0,0.14)]",
+          "ring-1 ring-white/25",
+          "transition-[filter,box-shadow] duration-400",
+          "hover:shadow-[0_16px_44px_rgba(124,247,212,0.28),0_6px_20px_rgba(0,0,0,0.16)]",
+          "hover:brightness-[1.04]"
+        )}
+      >
+        <span
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100",
+            !prefersReducedMotion && "animate-[hero-shimmer_2.8s_ease-in-out_infinite]"
+          )}
+          style={{
+            background:
+              "linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.35) 48%, transparent 96%)",
+            backgroundSize: "200% 100%",
+          }}
+        />
+        <span className="relative">{children}</span>
+        <ArrowUpRight
+          className="relative size-4 stroke-[2.25] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          aria-hidden
+        />
+      </Link>
+    </motion.div>
+  );
+}
+
+function PremiumGhostButton({ href, children, prefersReducedMotion }) {
+  return (
+    <motion.div
+      whileHover={
+        prefersReducedMotion
+          ? undefined
+          : { scale: 1.03, transition: { duration: 0.28, ease: easeLux } }
+      }
+      whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
+    >
+      <Link
+        href={href}
+        className={cn(
+          "group relative inline-flex min-h-11 items-center justify-center gap-2 overflow-hidden rounded-full",
+          "border border-white/[0.16] bg-[rgb(7_29_29_/0.42)] px-7 py-2.5",
+          "text-[0.875rem] font-semibold text-foreground backdrop-blur-md",
+          "shadow-[0_8px_28px_rgb(0_0_0_/0.22),inset_0_1px_0_0_rgba(255,255,255,0.06)]",
+          "transition-[border-color,background-color,box-shadow] duration-400",
+          "hover:border-accent-start/35 hover:bg-[rgb(7_29_29_/0.62)]",
+          "hover:shadow-[0_12px_36px_rgb(0_0_0_/0.28),0_0_28px_-6px_rgb(124_247_212/0.22),inset_0_1px_0_0_rgba(255,255,255,0.1)]"
+        )}
+      >
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 120% at 50% 0%, rgba(124,247,212,0.12), transparent 65%)",
+          }}
+        />
+        <span className="relative">{children}</span>
+      </Link>
     </motion.div>
   );
 }
@@ -144,18 +416,18 @@ const leftVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.09,
-      delayChildren: 0.08,
+      staggerChildren: 0.08,
+      delayChildren: 0.06,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 14 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.56, ease: easeLux },
+    transition: { duration: 0.52, ease: easeLux },
   },
 };
 
@@ -182,21 +454,20 @@ export default function Hero() {
         <MovingBeamsLayer prefersReducedMotion={prefersReducedMotion} />
       </div>
 
-      {/* Ambient: soft wash + top-right hint + portrait halo — restrained */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
+      {/* Ambient wash — AI-focused mint / lime hints */}
+      <motion.div className="pointer-events-none absolute inset-0" aria-hidden>
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 55% 48% at 78% 62%, rgba(124, 247, 212, 0.055), transparent 65%), radial-gradient(ellipse 40% 32% at 92% 8%, rgba(217, 255, 99, 0.035), transparent 58%)",
+              "radial-gradient(ellipse 55% 48% at 78% 62%, rgba(124, 247, 212, 0.07), transparent 65%), radial-gradient(ellipse 40% 32% at 92% 8%, rgba(217, 255, 99, 0.045), transparent 58%), radial-gradient(ellipse 35% 28% at 12% 72%, rgba(124, 247, 212, 0.04), transparent 62%)",
           }}
         />
-      </div>
+      </motion.div>
 
       <div
         className={cn(
           "relative z-10 mx-auto flex w-full max-w-[1280px] flex-1 flex-col justify-center px-6 sm:px-10 lg:px-14",
-          /* Pixion rhythm: clearance below fixed nav + optical vertical balance */
           "pb-[min(7vh,3.25rem)] pt-[calc(6.75rem+env(safe-area-inset-top))] sm:pb-[min(8vh,3.75rem)] sm:pt-[calc(7.25rem+env(safe-area-inset-top))]",
           "lg:pb-[min(9vh,5rem)] lg:pt-[calc(7.5rem+env(safe-area-inset-top))]"
         )}
@@ -214,103 +485,128 @@ export default function Hero() {
             initial="hidden"
             animate="visible"
           >
-            <motion.p
+            <motion.div
               variants={itemVariants}
-              className="mb-8 inline-flex items-center gap-2.5 text-[0.8125rem] font-medium tracking-[0.04em] text-accent-start/90 sm:mb-[2.75rem] sm:text-[0.875rem]"
+              className="mb-7 flex flex-wrap items-center gap-3 sm:mb-8"
             >
-              <span className="text-[0.65rem] leading-none opacity-90" aria-hidden>
-                ●
+              <span
+                className={cn(
+                  "inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.04] px-3 py-1.5",
+                  "text-[0.6875rem] font-semibold uppercase tracking-[0.14em] text-foreground/90 backdrop-blur-sm sm:text-[0.71875rem]"
+                )}
+              >
+                <Sparkles className="size-3 text-accent-start" aria-hidden />
+                Manish Kumar
               </span>
-              Your Vision, My Design Expertise
-            </motion.p>
+              <span className="inline-flex items-center gap-2 text-[0.8125rem] font-medium tracking-[0.02em] text-accent-start/85 sm:text-[0.84375rem]">
+                <span className="relative flex size-1.5" aria-hidden>
+                  <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent-start/40 opacity-75" />
+                  <span className="relative inline-flex size-1.5 rounded-full bg-accent-start" />
+                </span>
+                Available for AI &amp; Full Stack projects
+              </span>
+            </motion.div>
 
-            <motion.h1
-              variants={itemVariants}
-              className={cn(
-                "mb-10 max-w-[min(35rem,100%)] font-bold leading-[1.15] tracking-[-0.026em] antialiased sm:mb-11 sm:max-w-[min(37rem,100%)] sm:leading-[1.13] lg:mb-12 lg:max-w-[min(39rem,100%)] xl:max-w-[min(41rem,100%)]",
-                "text-[clamp(2.25rem,3.1vw+1.2rem,3.5rem)] text-foreground"
-              )}
+            <RevealBlock
+              delay={0.05}
+              prefersReducedMotion={prefersReducedMotion}
+              className="mb-6 sm:mb-7"
             >
-              <span className="text-gradient-primary block">I&apos;m Manish,</span>
-              <span className="mt-2 block text-foreground sm:mt-3">AI-powered Full Stack</span>
-              <span className="mt-2 block text-foreground/[0.96] sm:mt-2.5">Developer based in India</span>
-            </motion.h1>
+              <h1
+                className={cn(
+                  "max-w-[min(40rem,100%)] font-bold leading-[1.08] tracking-[-0.032em] antialiased",
+                  "text-[clamp(2.35rem,3.4vw+1.15rem,3.75rem)]"
+                )}
+              >
+                <RevealLines
+                  prefersReducedMotion={prefersReducedMotion}
+                  delay={0.1}
+                  lines={["AI-Enabled Full Stack"]}
+                  lineClassName="text-gradient-primary"
+                />
+                <RevealLines
+                  prefersReducedMotion={prefersReducedMotion}
+                  delay={0.22}
+                  lines={["Developer"]}
+                  lineClassName="mt-1.5 text-foreground sm:mt-2"
+                />
+              </h1>
+            </RevealBlock>
 
             <motion.p
               variants={itemVariants}
-              className="mb-11 max-w-[min(36rem,100%)] text-[1.03125rem] leading-[1.78] text-muted sm:mb-12 sm:max-w-[min(38rem,100%)] sm:text-[1.0625rem] sm:leading-[1.82] lg:max-w-[min(40rem,100%)]"
+              className="mb-8 max-w-[min(38rem,100%)] text-[1.03125rem] leading-[1.76] text-muted sm:mb-9 sm:max-w-[min(40rem,100%)] sm:text-[1.0625rem] sm:leading-[1.8] lg:max-w-[min(42rem,100%)]"
             >
-              I craft fast, accessible interfaces with crisp motion and strong visual direction.
-              From design systems to delightful micro-interactions, I build experiences that feel
-              modern, polished, and intentional.
+              I build scalable websites, modern web applications, AI-powered workflows, CMS
+              platforms, and high-performance digital experiences.
             </motion.p>
+
+            <motion.div
+              variants={itemVariants}
+              className="mb-9 flex flex-wrap items-center gap-x-1.5 gap-y-2 sm:mb-10"
+            >
+              {TECH_STACK.map((tech, i) => (
+                <span key={tech} className="inline-flex items-center gap-1.5">
+                  {i > 0 && (
+                    <span
+                      className="text-[0.5rem] text-white/25 select-none"
+                      aria-hidden
+                    >
+                      ●
+                    </span>
+                  )}
+                  <span
+                    className={cn(
+                      "rounded-md border border-white/[0.08] bg-white/[0.03] px-2 py-1",
+                      "text-[0.6875rem] font-medium tracking-[0.02em] text-foreground/78 backdrop-blur-sm",
+                      "transition-colors duration-300 hover:border-accent-start/25 hover:bg-accent-start/[0.06] hover:text-foreground/95",
+                      "sm:text-[0.71875rem] sm:px-2.5"
+                    )}
+                  >
+                    {tech}
+                  </span>
+                </span>
+              ))}
+            </motion.div>
+
+            {/* Inline stats — visible on smaller screens; portrait cards on lg+ */}
+            <motion.div
+              variants={itemVariants}
+              className="mb-10 grid grid-cols-2 gap-2.5 sm:gap-3 lg:hidden"
+            >
+              {HERO_STATS.map((stat) => (
+                <div
+                  key={stat.label}
+                  className={cn(
+                    "rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2.5 backdrop-blur-sm",
+                    "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)]"
+                  )}
+                >
+                  <p className="text-[0.9375rem] font-bold tracking-[-0.02em] text-foreground">
+                    {stat.value}
+                  </p>
+                  <p className="mt-0.5 text-[0.6875rem] font-medium text-muted">{stat.label}</p>
+                </div>
+              ))}
+            </motion.div>
 
             <motion.div
               variants={itemVariants}
               className="flex flex-wrap items-center gap-4 sm:gap-[1.125rem] lg:gap-5"
             >
-              <motion.div
-                whileHover={
-                  prefersReducedMotion
-                    ? undefined
-                    : { scale: 1.02, transition: { duration: 0.25, ease: easeLux } }
-                }
-                whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
-              >
-                <Link
-                  href="/contact"
-                  className={cn(
-                    "relative inline-flex min-h-11 items-center justify-center overflow-hidden rounded-full",
-                    "bg-[linear-gradient(105deg,#7cf7d4_0%,#a8f0d4_45%,#d9ff63_100%)]",
-                    "px-8 py-2.5 text-[0.875rem] font-semibold text-[#0a1818]",
-                    "shadow-[0_10px_28px_rgba(124,247,212,0.12),0_4px_12px_rgba(0,0,0,0.12)]",
-                    "ring-1 ring-white/20 transition-[filter,box-shadow] duration-300 hover:brightness-[1.02] hover:shadow-[0_14px_36px_rgba(124,247,212,0.14)]"
-                  )}
-                >
-                  <span className="relative">Get Started</span>
-                </Link>
-              </motion.div>
-
-              <motion.div
-                whileHover={
-                  prefersReducedMotion
-                    ? undefined
-                    : { scale: 1.02, transition: { duration: 0.25, ease: easeLux } }
-                }
-                whileTap={prefersReducedMotion ? undefined : { scale: 0.99 }}
-              >
-                <Link
-                  href="https://www.youtube.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={cn(
-                    "group inline-flex items-center gap-2.5 rounded-full border border-white/[0.14] bg-[rgb(7_29_29_/0.35)] px-4 py-2",
-                    "text-[0.875rem] font-medium text-foreground backdrop-blur-sm",
-                    "shadow-[0_6px_24px_rgb(0_0_0_/0.2)] transition-[border-color,background-color] duration-300",
-                    "hover:border-white/[0.2] hover:bg-[rgb(7_29_29_/0.5)]"
-                  )}
-                >
-                  <span
-                    className={cn(
-                      "flex size-9 items-center justify-center rounded-full border border-white/20 transition-colors duration-300",
-                      "bg-white/[0.06] group-hover:border-white/30"
-                    )}
-                  >
-                    <Play
-                      className="ml-0.5 size-4 fill-foreground text-foreground"
-                      aria-hidden
-                    />
-                  </span>
-                  Watch Intro
-                </Link>
-              </motion.div>
+              <PremiumPrimaryButton href="/projects" prefersReducedMotion={prefersReducedMotion}>
+                View Projects
+              </PremiumPrimaryButton>
+              <PremiumGhostButton href="/contact" prefersReducedMotion={prefersReducedMotion}>
+                Contact Me
+              </PremiumGhostButton>
             </motion.div>
           </motion.div>
 
           {/* Right — large bottom-anchored portrait */}
           <div
             className={cn(
-              "relative mx-auto w-full max-w-[min(28rem,calc(100vw-3rem))] sm:max-w-[min(30rem,calc(100vw-4rem))]",
+              "relative mx-auto w-full max-w-[min(30rem,calc(100vw-2.5rem))] sm:max-w-[min(32rem,calc(100vw-3rem))]",
               "lg:mx-0 lg:flex lg:max-w-none lg:flex-col lg:justify-end lg:self-end"
             )}
           >
@@ -324,45 +620,14 @@ export default function Hero() {
               }}
               className="relative flex w-full justify-center lg:justify-end xl:-mr-2 2xl:-mr-6"
             >
-              {/* Soft lime/mint depth — large lower-right blob (Pixion-like, minimal) */}
-              <div
-                aria-hidden
-                className={cn(
-                  "pointer-events-none absolute z-0 rounded-[50%]",
-                  "bottom-[-6%] left-1/2 h-[min(88vw,640px)] w-[min(98vw,700px)] -translate-x-[46%]",
-                  "sm:bottom-[-8%] sm:h-[min(82vw,680px)] sm:w-[min(94vw,720px)] sm:-translate-x-[48%]",
-                  "lg:inset-auto lg:bottom-[-10%] lg:right-[-20%] lg:left-auto lg:h-[min(78vh,820px)] lg:w-[min(72vw,820px)] lg:translate-x-0",
-                  "xl:bottom-[-12%] xl:right-[-16%] xl:h-[min(82vh,880px)] xl:w-[min(68vw,860px)]"
-                )}
-                style={{
-                  background:
-                    "radial-gradient(ellipse 78% 64% at 72% 88%, rgba(211, 255, 154, 0.22) 0%, rgba(165, 244, 202, 0.11) 36%, rgba(124, 247, 212, 0.05) 52%, transparent 70%)",
-                  filter: "blur(56px)",
-                  opacity: 0.82,
-                }}
-              />
-              <div
-                aria-hidden
-                className={cn(
-                  "pointer-events-none absolute z-0 rounded-[45%]",
-                  "bottom-[2%] right-[2%] h-[min(62vw,420px)] w-[min(70vw,480px)]",
-                  "lg:bottom-[0%] lg:right-[-8%] lg:h-[min(52vh,520px)] lg:w-[min(48vw,520px)]",
-                  "xl:bottom-[-2%] xl:right-[-4%]"
-                )}
-                style={{
-                  background:
-                    "radial-gradient(ellipse 68% 60% at 68% 78%, rgba(193, 255, 114, 0.16), rgba(124, 247, 212, 0.07) 45%, transparent 68%)",
-                  filter: "blur(40px)",
-                  opacity: 0.74,
-                }}
-              />
+              <AnimatedPortraitGlow prefersReducedMotion={prefersReducedMotion} />
 
               <motion.div
                 animate={
                   prefersReducedMotion
                     ? undefined
                     : {
-                        y: [0, -2.5, 2, 0],
+                        y: [0, -3, 2.5, 0],
                         transition: {
                           duration: 14,
                           repeat: Infinity,
@@ -370,81 +635,108 @@ export default function Hero() {
                         },
                       }
                 }
-                className="relative z-[1] w-full max-w-[28rem] sm:max-w-[30rem] lg:max-w-[640px] xl:max-w-[min(700px,100%)]"
+                className="relative z-[1] w-full max-w-[30rem] sm:max-w-[32rem] lg:max-w-[680px] xl:max-w-[min(760px,100%)]"
               >
-                <div
+                <motion.div
+                  aria-hidden
                   className={cn(
-                    "relative mx-auto w-full max-w-[24.75rem]",
-                    "aspect-[10/12.75] max-h-[min(72vh,640px)]",
-                    "sm:max-h-[min(74vh,680px)] sm:max-w-[26.75rem]",
-                    "lg:mx-0 lg:ml-auto lg:aspect-[10/12.5] lg:max-h-[min(88vh,920px)] lg:max-w-full",
-                    "xl:aspect-[10/13] xl:max-h-[min(90vh,960px)]"
+                    "pointer-events-none absolute inset-0 z-0 rounded-[2rem]",
+                    "left-[8%] right-[4%] top-[6%] bottom-[4%]",
+                    "lg:left-[6%] lg:right-[2%]"
+                  )}
+                  animate={
+                    prefersReducedMotion
+                      ? undefined
+                      : {
+                          opacity: [0.4, 0.65, 0.5, 0.6],
+                        }
+                  }
+                  transition={{
+                    duration: 8,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  style={{
+                    background:
+                      "linear-gradient(160deg, rgba(124,247,212,0.15) 0%, rgba(217,255,99,0.08) 45%, transparent 72%)",
+                    filter: "blur(28px)",
+                  }}
+                />
+                <motion.div
+                  className={cn(
+                    "relative mx-auto w-full max-w-[27rem]",
+                    "aspect-[10/12.75] max-h-[min(76vh,680px)]",
+                    "sm:max-h-[min(78vh,720px)] sm:max-w-[29rem]",
+                    "lg:mx-0 lg:ml-auto lg:aspect-[10/12.5] lg:max-h-[min(92vh,980px)] lg:max-w-full",
+                    "xl:aspect-[10/13] xl:max-h-[min(94vh,1000px)]"
                   )}
                 >
                   <Image
                     src={HERO_IMG}
-                    alt="Manish — AI-powered full stack developer portrait"
+                    alt="Manish Kumar — AI-enabled full stack developer professional portrait"
                     fill
-                    sizes="(max-width:640px) 92vw, (max-width:1024px) 88vw, (max-width:1536px) 48vw, 700px"
+                    sizes="(max-width:640px) 94vw, (max-width:1024px) 90vw, (max-width:1536px) 50vw, 760px"
                     priority
-                    className="pointer-events-none select-none object-contain object-bottom-right"
+                    className="pointer-events-none relative z-[1] select-none object-cover object-center drop-shadow-[0_28px_56px_rgba(0,0,0,0.4)]"
                   />
-                </div>
+                </motion.div>
               </motion.div>
 
-              <FloatingGlassCard
+              <StatGlassCard
+                stat={HERO_STATS[0]}
                 className={cn(
-                  "absolute right-0 top-[5%] z-30 w-[10.5rem] px-3 py-2.5 sm:w-[10.75rem]",
-                  "max-lg:left-5 max-lg:right-auto max-lg:top-[2%]",
-                  "lg:right-2 lg:top-[3%]",
-                  "xl:right-6 xl:top-[5%]"
+                  "absolute right-0 top-[4%] z-30 w-[9.75rem] sm:w-[10.25rem]",
+                  "max-lg:left-4 max-lg:right-auto max-lg:top-[1%]",
+                  "lg:right-1 lg:top-[2%]",
+                  "xl:right-5 xl:top-[4%]",
+                  "max-lg:hidden"
                 )}
                 prefersReducedMotion={prefersReducedMotion}
-                delay={0.05}
+                delay={0}
                 floatDuration={21}
-              >
-                <p className="text-[0.875rem] font-semibold tracking-[-0.02em] text-neutral-900">
-                  8+ Years Experience
-                </p>
-                <div className="mt-1.5 h-0.5 w-8 rounded-full bg-[linear-gradient(90deg,#7cf7d4,#d9ff63)]" />
-              </FloatingGlassCard>
+              />
 
-              <FloatingGlassCard
+              <StatGlassCard
+                stat={HERO_STATS[1]}
                 className={cn(
-                  "absolute bottom-[5%] left-0 z-30 w-[12.25rem] px-3 py-2 sm:left-0",
-                  "max-lg:bottom-[5%] max-lg:left-3 max-lg:w-[min(12rem,calc(100vw-5.5rem))]",
-                  "lg:bottom-[3%] lg:left-1",
-                  "xl:bottom-[4%] xl:left-0"
+                  "absolute left-0 top-[28%] z-30 w-[9.5rem] sm:w-[10rem]",
+                  "max-lg:left-2 max-lg:top-[24%]",
+                  "lg:left-0 lg:top-[26%]",
+                  "xl:left-[-0.5rem] xl:top-[28%]",
+                  "max-lg:hidden"
                 )}
                 prefersReducedMotion={prefersReducedMotion}
-                delay={0.12}
-                floatDuration={24}
-              >
-                <p className="text-[0.8875rem] font-semibold text-neutral-900">Real Customer</p>
-                <div className="mt-2.5 flex flex-wrap items-center gap-1.5" aria-hidden>
-                  {["EK", "AR", "MS", "JP"].map((initials, ai) => (
-                    <span
-                      key={`${initials}-${String(ai)}`}
-                      style={{ marginLeft: ai > 0 ? "-6px" : 0 }}
-                      className={cn(
-                        "inline-flex size-6 items-center justify-center rounded-full border border-white text-[9px] font-semibold text-neutral-800 shadow-[0_1px_3px_rgb(0_0_0/0.08)]",
-                        "bg-gradient-to-b from-neutral-100 to-neutral-200/90",
-                        ai === 0 && "relative z-[4]",
-                        ai === 1 && "relative z-[3]",
-                        ai === 2 && "relative z-[2]",
-                        ai === 3 && "relative z-[1]"
-                      )}
-                    >
-                      {initials}
-                    </span>
-                  ))}
-                  <span className="ml-0.5 inline-flex">
-                    <span className="inline-flex size-6 items-center justify-center rounded-full bg-[linear-gradient(135deg,#7cf7d4,#d9ff63)] shadow-sm ring-2 ring-white">
-                      <Plus className="size-3 stroke-[2.5] text-[#0a1818]" aria-hidden />
-                    </span>
-                  </span>
-                </div>
-              </FloatingGlassCard>
+                delay={0.08}
+                floatDuration={23}
+              />
+
+              <StatGlassCard
+                stat={HERO_STATS[2]}
+                className={cn(
+                  "absolute bottom-[18%] left-0 z-30 w-[10.5rem] sm:w-[11rem]",
+                  "max-lg:bottom-[16%] max-lg:left-3",
+                  "lg:bottom-[16%] lg:left-[-0.25rem]",
+                  "xl:bottom-[18%] xl:left-0",
+                  "max-lg:hidden"
+                )}
+                prefersReducedMotion={prefersReducedMotion}
+                delay={0.14}
+                floatDuration={25}
+              />
+
+              <StatGlassCard
+                stat={HERO_STATS[3]}
+                className={cn(
+                  "absolute bottom-[4%] right-0 z-30 w-[10.75rem] sm:w-[11.25rem]",
+                  "max-lg:bottom-[3%] max-lg:right-3",
+                  "lg:bottom-[2%] lg:right-1",
+                  "xl:bottom-[3%] xl:right-4",
+                  "max-lg:hidden"
+                )}
+                prefersReducedMotion={prefersReducedMotion}
+                delay={0.2}
+                floatDuration={22}
+              />
             </motion.div>
           </div>
         </div>

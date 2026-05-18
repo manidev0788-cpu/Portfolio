@@ -6,3 +6,7 @@ export const CONTACT_EMAIL = "your@email.com";
 
 /** Résumé / CV — place `public/cv.pdf` or change path. */
 export const RESUME_URL = "/cv.pdf";
+
+/** Floating social bar — update with your real profiles. */
+export const WHATSAPP_URL = `https://wa.me/${CONTACT_PHONE.replace(/\D/g, "")}`;
+export const LINKEDIN_URL = "https://linkedin.com/in/YOURUSERNAME";

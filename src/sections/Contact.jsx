@@ -1,10 +1,11 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useState } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 
+import ContactForm from "@/components/ContactForm";
 import { CONTACT_ADDRESS, CONTACT_EMAIL, CONTACT_PHONE, RESUME_URL } from "@/content/contact-constants";
 import { cn } from "@/utils/cn";
 
@@ -37,7 +38,7 @@ function RotatingResumeBadge({ prefersReducedMotion, resumeUrl }) {
   return (
     <Link
       href={resumeUrl}
-      aria-label="View my resume — opens Résumé or contact"
+      aria-label="View my resume â€” opens RÃ©sumÃ© or contact"
       className={cn(
         "relative mx-auto block shrink-0",
         "size-[9.125rem] sm:size-[10.25rem] lg:size-[11rem]",
@@ -83,7 +84,7 @@ function RotatingResumeBadge({ prefersReducedMotion, resumeUrl }) {
             style={{ fontSize: "13.5px", fontWeight: 700, letterSpacing: "0.24em", textTransform: "uppercase" }}
           >
             <textPath href={`#${textPathId}`} startOffset="0%">
-              VIEW MY RESUME • VIEW MY RESUME • VIEW MY RESUME •
+              VIEW MY RESUME â€¢ VIEW MY RESUME â€¢ VIEW MY RESUME â€¢
             </textPath>
           </text>
         </svg>
@@ -119,16 +120,11 @@ export default function Contact({ variant = "home" }) {
   const isPage = variant === "page";
   const reducedMotionQuery = useReducedMotion();
   const [hasMounted, setHasMounted] = useState(false);
-
   useEffect(() => {
     setHasMounted(true);
   }, []);
 
   const prefersReducedMotion = hasMounted && Boolean(reducedMotionQuery);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-  }
 
   const Root = isPage ? "main" : "section";
   const headingId = isPage ? "contact-page-heading" : "contact-heading";
@@ -175,7 +171,7 @@ export default function Contact({ variant = "home" }) {
         ) : null}
 
         <div className="grid gap-14 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:items-start lg:gap-x-14 xl:gap-x-[4.75rem]">
-          {/* LEFT — headline + contacts + rotating badge */}
+          {/* LEFT â€” headline + contacts + rotating badge */}
           <motion.div
             initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -185,7 +181,7 @@ export default function Contact({ variant = "home" }) {
           >
             <p className="inline-flex items-center gap-2.5 text-[0.8125rem] font-medium tracking-[0.04em] text-accent-start sm:text-[0.875rem]">
               <span className="text-[0.65rem] leading-none opacity-95" aria-hidden>
-                ●
+                â—
               </span>
               Contact Us
             </p>
@@ -206,7 +202,7 @@ export default function Contact({ variant = "home" }) {
               a web application, or simply need advice.
             </p>
 
-            {/* Contact rows + Pixion rotating résumé badge (badge centered below / in column) */}
+            {/* Contact rows + Pixion rotating rÃ©sumÃ© badge (badge centered below / in column) */}
             <div className="mt-10 flex w-full flex-col items-center gap-10 lg:mt-14 lg:gap-12">
               <div className="flex w-full min-w-0 max-w-xl flex-col gap-9 lg:gap-10">
                 <div className="flex gap-[1.125rem] sm:gap-5">
@@ -288,7 +284,7 @@ export default function Contact({ variant = "home" }) {
             </div>
           </motion.div>
 
-          {/* RIGHT — glass form */}
+          {/* RIGHT â€” glass form */}
           <motion.article
             initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -320,112 +316,7 @@ export default function Contact({ variant = "home" }) {
                 answer any questions.
               </p>
 
-              <form className="mt-8 flex flex-col gap-5 sm:mt-10" noValidate onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  <label className="flex flex-col gap-2">
-                    <span className="sr-only">First Name</span>
-                    <input
-                      name="firstName"
-                      type="text"
-                      autoComplete="given-name"
-                      placeholder="First Name"
-                      className={cn(
-                        "min-h-12 rounded-xl border border-white/[0.08] bg-black/25 px-4 py-[0.7rem]",
-                        "text-[0.9275rem] text-foreground placeholder:text-muted/55",
-                        "outline-none shadow-[inset_0_1px_2px_rgb(0_0_0/_/0.12)] backdrop-blur-sm",
-                        "transition-[border-color,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                        "focus:border-accent-start/30 focus:ring-1 focus:ring-accent-start/25"
-                      )}
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2">
-                    <span className="sr-only">Last Name</span>
-                    <input
-                      name="lastName"
-                      type="text"
-                      autoComplete="family-name"
-                      placeholder="Last Name"
-                      className={cn(
-                        "min-h-12 rounded-xl border border-white/[0.08] bg-black/25 px-4 py-[0.7rem]",
-                        "text-[0.9275rem] text-foreground placeholder:text-muted/55",
-                        "outline-none shadow-[inset_0_1px_2px_rgb(0_0_0/_/0.12)] backdrop-blur-sm",
-                        "transition-[border-color,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                        "focus:border-accent-start/30 focus:ring-1 focus:ring-accent-start/25"
-                      )}
-                    />
-                  </label>
-                </div>
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-                  <label className="flex flex-col gap-2">
-                    <span className="sr-only">Email</span>
-                    <input
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      placeholder="Email"
-                      className={cn(
-                        "min-h-12 rounded-xl border border-white/[0.08] bg-black/25 px-4 py-[0.7rem]",
-                        "text-[0.9275rem] text-foreground placeholder:text-muted/55",
-                        "outline-none shadow-[inset_0_1px_2px_rgb(0_0_0/_/0.12)] backdrop-blur-sm",
-                        "transition-[border-color,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                        "focus:border-accent-start/30 focus:ring-1 focus:ring-accent-start/25"
-                      )}
-                    />
-                  </label>
-                  <label className="flex flex-col gap-2">
-                    <span className="sr-only">Phone Number</span>
-                    <input
-                      name="phone"
-                      type="tel"
-                      autoComplete="tel"
-                      placeholder="Phone Number"
-                      className={cn(
-                        "min-h-12 rounded-xl border border-white/[0.08] bg-black/25 px-4 py-[0.7rem]",
-                        "text-[0.9275rem] text-foreground placeholder:text-muted/55",
-                        "outline-none shadow-[inset_0_1px_2px_rgb(0_0_0/_/0.12)] backdrop-blur-sm",
-                        "transition-[border-color,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                        "focus:border-accent-start/30 focus:ring-1 focus:ring-accent-start/25"
-                      )}
-                    />
-                  </label>
-                </div>
-                <label className="flex flex-col gap-2">
-                  <span className="sr-only">Message</span>
-                  <textarea
-                    name="message"
-                    rows={5}
-                    placeholder="Message"
-                    className={cn(
-                      "min-h-[140px] resize-y rounded-xl border border-white/[0.08] bg-black/25 px-4 py-3",
-                      "text-[0.9275rem] text-foreground placeholder:text-muted/55 sm:py-[0.9rem]",
-                      "outline-none shadow-[inset_0_1px_2px_rgb(0_0_0/_/0.12)] backdrop-blur-sm",
-                      "transition-[border-color,box-shadow] duration-250 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                      "focus:border-accent-start/30 focus:ring-1 focus:ring-accent-start/25"
-                    )}
-                  />
-                </label>
-                <div className="pt-2">
-                  <motion.button
-                    type="submit"
-                    whileHover={{
-                      scale: prefersReducedMotion ? 1 : 1.015,
-                      transition: { duration: 0.25, ease: easeLux },
-                    }}
-                    whileTap={{ scale: prefersReducedMotion ? 1 : 0.995 }}
-                    className={cn(
-                      "relative inline-flex min-h-11 w-full items-center justify-center rounded-full sm:w-auto sm:min-w-[12.75rem]",
-                      "bg-[linear-gradient(103deg,#7cf7d4_0%,#aaf5d8_42%,#d9ff63_100%)]",
-                      "px-10 py-[0.7rem] text-[0.875rem] font-semibold text-[#071d1d]",
-                      "shadow-[0_12px_32px_-8px_rgb(124_247_212/_/0.22),0_4px_12px_rgb(0_0_0/_/0.12)]",
-                      "ring-1 ring-white/26 transition-[filter,box-shadow] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                      "hover:brightness-[1.04] hover:shadow-[0_16px_40px_-6px_rgb(124_247_212/_/0.28)]",
-                      "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-start"
-                    )}
-                  >
-                    Submit Message
-                  </motion.button>
-                </div>
-              </form>
+              <ContactForm />
             </div>
           </motion.article>
         </div>

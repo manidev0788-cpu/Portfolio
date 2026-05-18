@@ -99,6 +99,7 @@ function Logo() {
 export default function Header() {
   const pathname = usePathname();
   const reducedMotionQuery = useReducedMotion();
+  const mobileNavId = useId();
   const [hasMounted, setHasMounted] = useState(false);
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -257,6 +258,8 @@ export default function Header() {
                 "text-white lg:hidden"
               )}
               aria-expanded={mobileOpen}
+              aria-controls={mobileNavId}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
               onClick={() => setMobileOpen((o) => !o)}
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -283,6 +286,44 @@ export default function Header() {
             </button>
           </div>
         </div>
+
+        <AnimatePresence initial={false}>
+          {mobileOpen ? (
+            <motion.nav
+              id={mobileNavId}
+              initial={prefersReducedMotion ? false : { opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={prefersReducedMotion ? undefined : { opacity: 0, height: 0 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.28, ease: easeHeader }}
+              className="mt-4 overflow-hidden rounded-2xl border border-white/[0.08] bg-black/35 p-2 backdrop-blur-md lg:hidden"
+              aria-label="Mobile navigation"
+            >
+              <ul className="flex flex-col gap-0.5">
+                {NAV_ITEMS.map((item) => {
+                  const active = activeSlug === item.id;
+                  return (
+                    <li key={item.id}>
+                      <Link
+                        href={item.href}
+                        onClick={() => {
+                          setActiveSlug(item.id);
+                          setMobileOpen(false);
+                        }}
+                        aria-current={active ? "page" : undefined}
+                        className={cn(
+                          "block rounded-xl px-4 py-3 text-base font-medium text-white transition-colors",
+                          active ? "bg-white/[0.08] text-accent-start" : "hover:bg-white/[0.06]"
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </motion.nav>
+          ) : null}
+        </AnimatePresence>
       </div>
     </motion.header>
   );

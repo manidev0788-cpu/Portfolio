@@ -10,8 +10,7 @@ import { cn } from "@/utils/cn";
 const GRID_COLUMNS = 12;
 const easeLux = [0.22, 1, 0.36, 1];
 
-/** Match Hero portrait path; replace with a dedicated about photo anytime. */
-const PROFILE_IMG = "/images/hero.png";
+const PROFILE_IMG = "/images/about-new.png";
 
 const CONTACT_EMAIL = "your@email.com";
 const CONTACT_PHONE = "+91 98765 43210";
@@ -40,17 +39,17 @@ export function PortraitOrbit({ prefersReducedMotion }) {
   return (
     <div
       className={cn(
-        "relative isolate mx-auto aspect-square w-full max-w-[min(21.5rem,90vw)] overflow-visible",
-        "lg:mx-0 lg:max-w-[23.25rem] xl:max-w-[24rem]"
+        "relative isolate mx-auto aspect-square w-full max-w-[min(22.5rem,92vw)] overflow-visible",
+        "lg:mx-0 lg:max-w-[24.5rem] xl:max-w-[25.5rem]"
       )}
     >
       {/* Ambient glow behind all layers */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 z-0 aspect-square w-[118%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[54px]"
+        className="pointer-events-none absolute left-1/2 top-1/2 z-0 aspect-square w-[125%] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[58px]"
         style={{
           background:
-            "radial-gradient(circle closest-side, rgb(124 247 212 / 0.14) 0%, rgb(217 255 99 / 0.05) 45%, transparent 72%)",
+            "radial-gradient(circle closest-side, rgb(124 247 212 / 0.24) 0%, rgb(124 247 212 / 0.1) 38%, rgb(217 255 99 / 0.06) 55%, transparent 72%)",
         }}
       />
 
@@ -100,18 +99,18 @@ export function PortraitOrbit({ prefersReducedMotion }) {
           className={cn(
             "relative mx-auto h-full w-full max-h-full max-w-full rounded-full p-1 sm:p-[4.5px]",
             "bg-[linear-gradient(145deg,#7cf7d4_0%,#5ee4b8_28%,#9ef0a8_56%,#d9ff63_100%)]",
-            "shadow-[0_0_48px_-8px_rgb(124_247_212/0.35),0_20px_48px_-22px_rgb(0_0_0/0.35),inset_0_1px_0_rgb(255_255_255/0.38)]",
+            "shadow-[0_0_56px_-6px_rgb(124_247_212/0.45),0_24px_52px_-20px_rgb(0_0_0/0.38),inset_0_1px_0_rgb(255_255_255/0.38)]",
             "ring-1 ring-white/[0.12]"
           )}
         >
           <div className="relative h-full w-full overflow-hidden rounded-full bg-surface-deep ring-2 ring-black/35">
             <Image
               src={PROFILE_IMG}
-              alt="Manish Kumar, full stack developer"
+              alt="Manish Kumar — AI-enabled full stack and React developer portrait"
               fill
               sizes="(max-width: 640px) 92vw, (max-width: 1024px) 52vw, 24rem"
-              className="object-cover object-[50%_22%] sm:object-[50%_18%]"
-              priority={false}
+              className="object-cover object-[50%_20%] sm:object-[50%_16%]"
+              loading="lazy"
             />
             <div
               aria-hidden
@@ -137,6 +136,7 @@ export default function About() {
   return (
     <section
       id="about"
+      aria-labelledby="about-heading"
       className={cn(
         "relative isolate w-full scroll-mt-[5.5rem] overflow-hidden",
         "border-t border-white/[0.045] bg-surface-deep pb-16 pt-14 sm:pb-20 sm:pt-[4.25rem] lg:pb-24 lg:pt-[5rem]"
@@ -185,6 +185,7 @@ export default function About() {
               </p>
 
               <h2
+                id="about-heading"
                 className={cn(
                   "max-w-[min(40rem,100%)] font-bold leading-[1.08] tracking-[-0.03em]",
                   "text-[clamp(1.9375rem,2.65vw+0.92rem,3rem)] antialiased text-foreground"
@@ -224,6 +225,25 @@ export default function About() {
                   Today my focus is on AI-enabled workflows, automation systems, modern SaaS
                   experiences, and smart business platforms that unite performance, scalability,
                   and refined UI/UX.
+                </p>
+                <p className="text-foreground/85">
+                  Explore my{" "}
+                  <Link href="/skills" className="text-accent-start underline-offset-4 hover:underline">
+                    technical skills
+                  </Link>
+                  ,{" "}
+                  <Link href="/expertise" className="text-accent-start underline-offset-4 hover:underline">
+                    service expertise
+                  </Link>
+                  ,{" "}
+                  <Link href="/projects" className="text-accent-start underline-offset-4 hover:underline">
+                    featured projects
+                  </Link>
+                  , or{" "}
+                  <Link href="/contact" className="text-accent-start underline-offset-4 hover:underline">
+                    contact me
+                  </Link>{" "}
+                  to discuss your next build.
                 </p>
               </div>
 

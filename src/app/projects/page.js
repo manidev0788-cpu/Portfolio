@@ -1,11 +1,8 @@
 import ProjectsPage from "@/sections/ProjectsPage";
 import Footer from "@/components/Footer";
+import { projectsMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
-  title: "My Projects — Portfolio",
-  description:
-    "Featured deployments: eCommerce storefront (Marketo XI), school management system, and AI-powered business listings (Listy)—live demos with case-study context.",
-};
+export const metadata = projectsMetadata;
 
 export default function ProjectsRoute() {
   return (

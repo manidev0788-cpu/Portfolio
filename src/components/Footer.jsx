@@ -25,9 +25,9 @@ const SKILLS_LINKS = [
 ];
 
 const VIEW_WORK_LINKS = [
-  { label: "Marketo XI — eCommerce", href: "/projects#marketo-xi" },
+  { label: "Listy — AI listings", href: "/projects#listy" },
   { label: "School management system", href: "/projects#school-management" },
-  { label: "Listy — AI business listings", href: "/projects#listy-murex" },
+  { label: "Marketo — eCommerce", href: "/projects#marketo" },
   { label: "All projects", href: "/projects" },
 ];
 
@@ -122,6 +122,7 @@ export default function Footer() {
 
   return (
     <footer
+      aria-label="Site footer and navigation"
       className={cn(
         "relative w-full overflow-hidden",
         "bg-[linear-gradient(90deg,#98f5e1_0%,#c9f890_52%,#e6fb73_100%)]",

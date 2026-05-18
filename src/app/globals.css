@@ -44,6 +44,12 @@
     background-clip: text;
     color: transparent;
   }
+
+  /** Defer paint/layout for below-fold home sections */
+  .section-deferred {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 32rem;
+  }
 }
 
 /* Skills marquee — outside @layer so keyframes always emit */
@@ -76,30 +82,6 @@
   }
 }
 
-/* Full-page loader — bottom accent bar */
-@keyframes page-loader-bar {
-  0% {
-    transform: translate3d(-102%, 0, 0);
-  }
-  100% {
-    transform: translate3d(320%, 0, 0);
-  }
-}
-
-.page-loader-bar {
-  animation: page-loader-bar 1.05s ease-in-out infinite;
-  will-change: transform;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .page-loader-bar {
-    animation: none;
-    transform: translate3d(0, 0, 0);
-    width: 100%;
-    opacity: 0.35;
-  }
-}
-
 /* About section — slow orbit rotation (GPU-friendly linear spin) */
 @keyframes about-orbit-spin {
   from {
@@ -125,6 +107,38 @@
 @media (prefers-reduced-motion: reduce) {
   .about-orbit-ring {
     animation: none;
+  }
+}
+
+/* Hero primary CTA — shimmer sweep on hover */
+@keyframes hero-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-\[hero-shimmer_2\.8s_ease-in-out_infinite\] {
+    animation: none;
+  }
+
+  .animate-\[floating-social-glow_2\.8s_ease-in-out_infinite\] {
+    animation: none;
+  }
+}
+
+@keyframes floating-social-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
   }
 }
 

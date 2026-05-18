@@ -42,7 +42,11 @@ export default function SkillsPage() {
   const prefersReducedMotion = hasMounted && Boolean(reducedMotionQuery);
 
   return (
-    <main className="min-h-dvh scroll-mt-28 bg-surface-deep antialiased">
+    <main
+      id="main-content"
+      className="min-h-dvh scroll-mt-28 bg-surface-deep antialiased"
+      aria-label="Skills and technical capabilities"
+    >
       <section
         className={cn(
           "relative isolate overflow-hidden border-b border-white/[0.045]",
@@ -170,6 +174,7 @@ export default function SkillsPage() {
                       className="object-contain object-center"
                       sizes="(max-width:1024px) 100vw, 32rem"
                       priority={i === 0}
+                      loading={i === 0 ? "eager" : "lazy"}
                     />
                   </div>
                   <div

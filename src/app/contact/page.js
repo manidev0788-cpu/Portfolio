@@ -1,11 +1,8 @@
 import Contact from "@/sections/Contact";
 import Footer from "@/components/Footer";
+import { contactMetadata } from "@/lib/seo/metadata";
 
-export const metadata = {
-  title: "Contact — Portfolio",
-  description:
-    "Get in touch to discuss your next project — address, phone, and contact form.",
-};
+export const metadata = contactMetadata;
 
 export default function ContactPage() {
   return (

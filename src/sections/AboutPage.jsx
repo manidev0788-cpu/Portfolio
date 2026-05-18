@@ -197,7 +197,11 @@ export default function AboutPage() {
   const prefersReducedMotion = hasMounted && Boolean(reducedMotionQuery);
 
   return (
-    <main className="min-h-dvh scroll-mt-28 bg-surface-deep text-foreground antialiased">
+    <main
+      id="main-content"
+      className="min-h-dvh scroll-mt-28 bg-surface-deep text-foreground antialiased"
+      aria-label="About Manish Kumar"
+    >
       <SectionShell className="scroll-mt-[5.5rem] border-t-0 pt-[calc(6.5rem+env(safe-area-inset-top))] sm:pt-[calc(7rem+env(safe-area-inset-top))] lg:pt-[calc(7.25rem+env(safe-area-inset-top))]">
         <nav aria-label="Breadcrumb" className="text-[0.8125rem] text-muted/85">
           <ol className="flex flex-wrap items-center gap-2">

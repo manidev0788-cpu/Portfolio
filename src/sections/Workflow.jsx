@@ -263,7 +263,7 @@ export default function Workflow() {
                     fill
                     className="h-full w-full object-contain rounded-[36px]"
                     sizes="(max-width:1024px) min(92vw,560px), 560px"
-                    priority={false}
+                    loading="lazy"
                   />
                   {/* Diagonal glass shimmer (Pixion-style) */}
                   <div

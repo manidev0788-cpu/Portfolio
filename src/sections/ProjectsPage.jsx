@@ -4,13 +4,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, ExternalLink, Lock } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Github, Sparkles } from "lucide-react";
 
-import { FEATURED_PROJECTS, PROJECTS_PAGE_INTRO, projectScreenshotUrl } from "@/content/projects-page-detail";
+import { FEATURED_PROJECTS, PROJECTS_PAGE_INTRO } from "@/content/projects-page-detail";
 import { cn } from "@/utils/cn";
 
 const GRID_COLUMNS = 12;
 const easeLux = [0.22, 1, 0.36, 1];
+
+const PAGE_CONTAINER = "mx-auto w-full max-w-[1400px] px-6 sm:px-10 lg:px-14";
 
 function SectionGrid({ className }) {
   return (
@@ -30,81 +32,204 @@ function SectionGrid({ className }) {
   );
 }
 
-function hostFromUrl(url) {
-  try {
-    return new URL(url).hostname.replace(/^www\./, "");
-  } catch {
-    return url;
-  }
-}
-
-function BrowserChrome({ hostname, children }) {
+function ProjectImageFrame({ project, index, prefersReducedMotion }) {
   return (
-    <div
+    <motion.div
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-64px" }}
+      transition={{ duration: prefersReducedMotion ? 0 : 0.6, ease: easeLux }}
       className={cn(
-        "group relative overflow-hidden rounded-[22px] p-px sm:rounded-[26px]",
-        "bg-[linear-gradient(148deg,rgb(124_247_212/0.28)_0%,transparent_42%,transparent_88%,rgba(217,255,99,0.08)_100%)]",
-        "shadow-[0_0_0_1px_rgb(124_247_212/0.12),0_28px_80px_-48px_rgb(0_0_0/0.72),inset_0_1px_0_rgb(255_255_255/0.06)]",
-        "transition-[box-shadow,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
-        "hover:shadow-[0_0_0_1px_rgb(124_247_212/0.22),0_36px_96px_-44px_rgb(0_0_0/0.78)]"
+        "group/image relative w-full",
+        "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1"
       )}
     >
+      <motion.div
+        aria-hidden
+        className={cn(
+          "pointer-events-none absolute -inset-4 rounded-[40px] opacity-50 blur-3xl sm:-inset-6",
+          "bg-[radial-gradient(ellipse_at_50%_50%,rgb(124_247_212/0.22),transparent_68%)]",
+          "transition-opacity duration-700 group-hover/image:opacity-100"
+        )}
+      />
+
       <div
         className={cn(
-          "overflow-hidden rounded-[21px] sm:rounded-[25px]",
-          "border border-white/[0.07] bg-[rgb(7_29_29/0.55)] backdrop-blur-md"
+          "relative rounded-[32px] p-px",
+          "bg-[linear-gradient(145deg,rgb(124_247_212/0.42)_0%,rgb(255_255_255/0.1)_40%,transparent_58%,rgba(217,255,99,0.16)_100%)]",
+          "shadow-[0_0_0_1px_rgb(124_247_212/0.16),0_32px_90px_-40px_rgb(0_0_0/0.75)]",
+          "transition-shadow duration-500",
+          "group-hover/image:shadow-[0_0_0_1px_rgb(124_247_212/0.3),0_40px_110px_-36px_rgb(0_0_0/0.8),0_0_56px_-8px_rgb(124_247_212/0.22)]"
         )}
       >
         <div
           className={cn(
-            "flex items-center gap-3 border-b border-white/[0.06] px-4 py-3 sm:px-5",
-            "bg-[linear-gradient(180deg,rgba(255,255,255,0.06)_0%,rgba(255,255,255,0.02)_100%)]"
+            "relative w-full overflow-hidden rounded-[31px]",
+            "border border-white/[0.1] bg-[rgb(6_24_24/0.72)] backdrop-blur-xl",
+            "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)]",
+            "aspect-[16/11] sm:aspect-[16/10] lg:aspect-[5/4] lg:max-h-[560px]"
           )}
         >
-          <span className="flex gap-2" aria-hidden>
-            <span className="size-3 rounded-full bg-[#ff5f56]/90 ring-1 ring-black/20" />
-            <span className="size-3 rounded-full bg-[#febc2e]/90 ring-1 ring-black/20" />
-            <span className="size-3 rounded-full bg-[#28c840]/90 ring-1 ring-black/20" />
+          <span
+            className={cn(
+              "absolute left-5 top-5 z-20 inline-flex rounded-full border border-white/[0.14]",
+              "bg-black/55 px-3 py-1.5 font-mono text-[0.6875rem] font-semibold tracking-[0.12em] text-accent-start backdrop-blur-md sm:text-xs"
+            )}
+          >
+            {project.index}
           </span>
-          <div className="flex min-w-0 flex-1 items-center gap-2 rounded-xl border border-white/[0.08] bg-black/40 px-3 py-2 shadow-[inset_0_1px_2px_rgb(0_0_0/0.35)]">
-            <span className="inline-flex size-5 shrink-0 items-center justify-center rounded-md bg-white/[0.06] text-muted">
-              <Lock className="size-3 stroke-[2.5]" aria-hidden />
-            </span>
-            <span className="truncate font-mono text-[0.75rem] tracking-[0.02em] text-muted/90 sm:text-[0.8125rem]">
-              {hostname}
-            </span>
+
+          <div className="relative h-full min-h-[inherit] w-full">
+            <Image
+              src={project.image}
+              alt={project.imageAlt}
+              fill
+              priority={index === 0}
+              loading={index === 0 ? "eager" : "lazy"}
+              sizes="(max-width: 1024px) 100vw, 700px"
+              className={cn(
+                "h-full w-full object-cover object-top",
+                "transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                "group-hover/image:scale-[1.05]"
+              )}
+            />
           </div>
         </div>
-        <div className="relative aspect-[16/10] w-full bg-[#050d0d]">{children}</div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
-function ProjectScreenshot({ url, alt }) {
-  const [broken, setBroken] = useState(false);
-  const src = projectScreenshotUrl(url);
+function ProjectContent({ project, prefersReducedMotion }) {
+  return (
+    <motion.article
+      initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-64px" }}
+      transition={{
+        duration: prefersReducedMotion ? 0 : 0.6,
+        delay: prefersReducedMotion ? 0 : 0.08,
+        ease: easeLux,
+      }}
+      className="flex w-full flex-col justify-center"
+    >
+      <motion.div
+        className={cn(
+          "rounded-[28px] border border-white/[0.09] bg-white/[0.03] p-7 backdrop-blur-xl sm:p-9 lg:p-10",
+          "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.07),0_0_40px_-16px_rgb(124_247_212/0.12)]"
+        )}
+      >
+        <p className="inline-flex items-center gap-2 text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-accent-start sm:text-[0.75rem]">
+          <Sparkles className="size-3 shrink-0" aria-hidden />
+          {project.category}
+        </p>
 
-  if (broken) {
-    return (
-      <div className="absolute inset-0 flex flex-col items-center justify-center bg-[linear-gradient(145deg,rgb(124_247_212/0.08),rgb(7_29_29/0.9))] p-8 text-center">
-        <p className="text-sm font-medium text-foreground/90">Preview unavailable</p>
-        <p className="mt-2 max-w-sm text-[0.8125rem] text-muted">Open the live site to explore the full UI.</p>
-        <ExternalLink className="mt-6 size-10 text-accent-start/60" aria-hidden />
-      </div>
-    );
-  }
+        <h2 className="mt-4 text-[clamp(2.125rem,2.8vw+1rem,3rem)] font-bold leading-[1.05] tracking-[-0.036em] text-white">
+          {project.title}
+        </h2>
+
+        <p className="mt-5 border-l-2 border-accent-start/40 pl-4 text-[0.96875rem] font-medium leading-[1.56] text-foreground/92 sm:text-[1rem]">
+          {project.outcome}
+        </p>
+
+        <p className="mt-5 text-[0.96875rem] leading-[1.8] text-muted/90 sm:text-[1rem] sm:leading-[1.82]">
+          {project.description}
+        </p>
+
+        <div className="mt-7 flex flex-wrap gap-2">
+          {project.techStack.map((tech) => (
+            <span
+              key={tech}
+              className={cn(
+                "rounded-lg border border-white/[0.1] bg-white/[0.04] px-3 py-1.5",
+                "text-[0.6875rem] font-semibold tracking-[0.03em] text-foreground/78 sm:text-[0.71875rem]"
+              )}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
+          <motion.a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={
+              prefersReducedMotion ? undefined : { scale: 1.03, transition: { duration: 0.25, ease: easeLux } }
+            }
+            whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
+            className={cn(
+              "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-7 text-sm font-semibold",
+              "bg-[linear-gradient(108deg,#7cf7d4_0%,#b4f5dc_48%,#d9ff63_100%)] text-[#061414]",
+              "shadow-[0_12px_36px_-10px_rgb(124_247_212/0.45)] ring-1 ring-white/25",
+              "transition-[filter,box-shadow] duration-300 hover:brightness-[1.05]"
+            )}
+          >
+            {project.liveCta}
+            <ExternalLink className="size-4" strokeWidth={2.25} aria-hidden />
+          </motion.a>
+
+          <Link
+            href="/contact"
+            className={cn(
+              "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold",
+              "border border-white/[0.12] text-foreground/90 transition-colors duration-300",
+              "hover:border-accent-start/35 hover:text-accent-start"
+            )}
+          >
+            Discuss build
+            <ArrowUpRight className="size-4" strokeWidth={2.25} aria-hidden />
+          </Link>
+
+          {project.githubUrl ? (
+            <motion.a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={
+                prefersReducedMotion ? undefined : { scale: 1.03, transition: { duration: 0.25, ease: easeLux } }
+              }
+              className={cn(
+                "inline-flex size-11 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.03] text-muted hover:text-foreground"
+              )}
+              aria-label={`${project.title} on GitHub`}
+            >
+              <Github className="size-[1.125rem]" strokeWidth={2.25} />
+            </motion.a>
+          ) : null}
+        </div>
+      </motion.div>
+    </motion.article>
+  );
+}
+
+function ProjectRow({ project, index, prefersReducedMotion }) {
+  const imageOnRight = index % 2 === 1;
 
   return (
-    <Image
-      src={src}
-      alt={alt}
-      fill
-      sizes="(max-width: 1024px) 100vw, 56rem"
-      className="object-cover object-top transition-[transform,filter] duration-700 ease-out group-hover:scale-[1.02] group-hover:brightness-[1.04]"
-      unoptimized
-      onError={() => setBroken(true)}
-    />
+    <section
+      id={project.slug}
+      className={cn(
+        "scroll-mt-[6.75rem] border-b border-white/[0.045] py-16 sm:py-20 lg:scroll-mt-[5.85rem] lg:py-24",
+        index === FEATURED_PROJECTS.length - 1 && "border-b-0"
+      )}
+    >
+      <div
+        className={cn(
+          PAGE_CONTAINER,
+          "grid items-center gap-12 lg:grid-cols-2 lg:gap-x-14 xl:gap-x-20",
+          imageOnRight && "lg:[&>*:first-child]:order-2 lg:[&>*:last-child]:order-1"
+        )}
+      >
+        <ProjectImageFrame
+          project={project}
+          index={index}
+          prefersReducedMotion={prefersReducedMotion}
+        />
+        <ProjectContent project={project} prefersReducedMotion={prefersReducedMotion} />
+      </div>
+    </section>
   );
 }
 
@@ -119,11 +244,15 @@ export default function ProjectsPage() {
   const prefersReducedMotion = hasMounted && Boolean(reducedMotionQuery);
 
   return (
-    <main className="min-h-dvh scroll-mt-28 bg-surface-deep text-foreground antialiased">
+    <main
+      id="main-content"
+      className="min-h-dvh w-full scroll-mt-28 bg-surface-deep text-foreground antialiased"
+      aria-label="Portfolio projects"
+    >
       <section
         className={cn(
-          "relative isolate overflow-hidden border-b border-white/[0.045]",
-          "scroll-mt-[5.5rem] pt-[calc(6.5rem+env(safe-area-inset-top))] pb-14 sm:pt-[calc(7rem+env(safe-area-inset-top))] sm:pb-16 lg:pt-[calc(7.25rem+env(safe-area-inset-top))] lg:pb-20"
+          "relative isolate w-full overflow-hidden border-b border-white/[0.045]",
+          "pt-[calc(6.75rem+env(safe-area-inset-top))] pb-16 sm:pb-20 lg:pt-[calc(7.5rem+env(safe-area-inset-top))] lg:pb-24"
         )}
       >
         <div className="pointer-events-none absolute inset-0">
@@ -131,167 +260,140 @@ export default function ProjectsPage() {
         </div>
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.98]"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse 58% 48% at 18% 28%, rgb(124 247 212 / 0.07), transparent 58%), radial-gradient(ellipse 50% 44% at 92% 72%, rgb(217 255 99 / 0.045), transparent 54%)",
+              "radial-gradient(ellipse 62% 52% at 14% 22%, rgb(124 247 212 / 0.09), transparent 58%), radial-gradient(ellipse 48% 42% at 94% 68%, rgb(217 255 99 / 0.055), transparent 54%)",
           }}
         />
 
-        <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 sm:px-10 lg:px-14">
-          <nav aria-label="Breadcrumb" className="text-[0.8125rem] text-muted/85">
+        <div className={cn("relative z-10", PAGE_CONTAINER)}>
+          <nav aria-label="Breadcrumb" className="text-[0.8125rem] text-muted/80">
             <ol className="flex flex-wrap items-center gap-2">
               <li>
                 <Link href="/#home" className="transition-colors hover:text-accent-start">
                   Home
                 </Link>
               </li>
-              <li aria-hidden className="text-muted/50">
+              <li aria-hidden className="text-muted/45">
                 /
               </li>
-              <li className="font-medium text-foreground/90">My projects</li>
+              <li className="font-medium text-foreground/88">Projects</li>
             </ol>
           </nav>
 
           <motion.header
-            initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: prefersReducedMotion ? 0 : 0.55, ease: easeLux }}
-            className="mt-8 max-w-[min(46rem,100%)]"
+            transition={{ duration: prefersReducedMotion ? 0 : 0.58, ease: easeLux }}
+            className="mt-10 max-w-[44rem]"
           >
-            <p className="inline-flex items-center gap-2.5 text-[0.8125rem] font-medium tracking-[0.04em] text-accent-start sm:text-[0.875rem]">
-              <span className="text-[0.65rem] leading-none opacity-95" aria-hidden>
-                ●
-              </span>
+            <p className="text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-accent-start">
               {PROJECTS_PAGE_INTRO.eyebrow}
             </p>
-            <h1 className="mt-5 text-[clamp(2rem,2.9vw+1rem,3.125rem)] font-bold leading-[1.06] tracking-[-0.032em] text-white">
+            <h1 className="mt-4 text-[clamp(2.25rem,3.2vw+1rem,3.5rem)] font-bold leading-[1.02] tracking-[-0.038em] text-white">
               {PROJECTS_PAGE_INTRO.titleBefore}
               <span className="text-gradient-primary">{PROJECTS_PAGE_INTRO.titleGradient}</span>
             </h1>
-            <p className="mt-5 text-[1rem] leading-[1.82] text-muted sm:text-[1.03125rem] sm:leading-[1.84]">
+            <p className="mt-6 text-[1.03125rem] leading-[1.75] text-muted sm:text-[1.0625rem]">
               {PROJECTS_PAGE_INTRO.lead}
             </p>
+            <p className="mt-4 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-muted/55 sm:text-xs">
+              {PROJECTS_PAGE_INTRO.statLine}
+            </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <motion.div className="mt-10 flex flex-wrap gap-2.5">
+              {FEATURED_PROJECTS.map((p) => (
+                <a
+                  key={p.slug}
+                  href={`#${p.slug}`}
+                  className={cn(
+                    "inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.03] px-4 py-2",
+                    "text-[0.75rem] font-semibold text-foreground/75 backdrop-blur-sm",
+                    "transition-all duration-300 hover:border-accent-start/30 hover:text-accent-start"
+                  )}
+                >
+                  <span className="font-mono text-[0.625rem] text-accent-start/80">{p.index}</span>
+                  {p.title}
+                </a>
+              ))}
+            </motion.div>
+
+            <div className="mt-10">
               <Link
                 href="/contact"
                 className={cn(
-                  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold",
-                  "bg-[linear-gradient(112deg,#7cf7d4_12%,#b8ffd7_52%,#d9ff63_100%)] text-[#071d1d]",
-                  "shadow-[0_10px_30px_-12px_rgb(0_0_0/0.45)] ring-2 ring-black/35 transition-[filter] hover:brightness-[1.05]"
+                  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-7 text-sm font-semibold",
+                  "bg-[linear-gradient(108deg,#7cf7d4_0%,#d9ff63_100%)] text-[#061414]",
+                  "shadow-[0_12px_32px_-12px_rgb(124_247_212/0.4)] ring-1 ring-white/20 transition-[filter] hover:brightness-[1.05]"
                 )}
               >
-                Start a project
+                Hire me for your next build
                 <ArrowUpRight className="size-4" strokeWidth={2.25} aria-hidden />
-              </Link>
-              <Link
-                href="/#home"
-                className={cn(
-                  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold",
-                  "border border-white/[0.11] bg-white/[0.04] text-foreground/95 backdrop-blur-sm",
-                  "transition-colors duration-300 hover:border-accent-start/35 hover:text-accent-start"
-                )}
-              >
-                Back to home
               </Link>
             </div>
           </motion.header>
         </div>
       </section>
 
-      {FEATURED_PROJECTS.map((project, i) => {
-        const reverse = i % 2 === 1;
-        const hostname = hostFromUrl(project.url);
+      <div className="relative isolate w-full overflow-hidden">
+        <div className="pointer-events-none absolute inset-0">
+          <SectionGrid className="opacity-[0.85]" />
+        </div>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 50% 40% at 50% 0%, rgb(124 247 212 / 0.06), transparent 62%)",
+          }}
+        />
 
-        return (
-          <section
+        {FEATURED_PROJECTS.map((project, index) => (
+          <ProjectRow
             key={project.slug}
-            id={project.slug}
+            project={project}
+            index={index}
+            prefersReducedMotion={prefersReducedMotion}
+          />
+        ))}
+
+        <motion.div
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.55, ease: easeLux }}
+          className={cn(PAGE_CONTAINER, "relative z-10 py-20 sm:py-24 lg:py-28")}
+        >
+          <div
             className={cn(
-              "relative isolate scroll-mt-[6rem] overflow-hidden border-b border-white/[0.045] bg-surface-deep",
-              "py-16 sm:py-[4.5rem] lg:scroll-mt-[5.75rem] lg:py-[5.25rem]"
+              "rounded-[28px] border border-white/[0.09] bg-white/[0.03] px-8 py-10 text-center backdrop-blur-xl sm:px-12 sm:py-12",
+              "shadow-[inset_0_1px_0_0_rgba(255,255,255,0.07),0_0_48px_-16px_rgb(124_247_212/0.2)]"
             )}
           >
-            <div className="pointer-events-none absolute inset-0">
-              <SectionGrid className="opacity-[0.85]" />
-            </div>
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0 opacity-[0.9]"
-              style={{
-                background: reverse
-                  ? "radial-gradient(ellipse 46% 42% at 88% 22%, rgb(124 247 212 / 0.045), transparent 55%)"
-                  : "radial-gradient(ellipse 46% 42% at 12% 28%, rgb(217 255 99 / 0.035), transparent 55%)",
-              }}
-            />
-
-            <div className="relative z-10 mx-auto w-full max-w-[1280px] px-6 sm:px-10 lg:px-14">
-              <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-x-14 xl:gap-x-20">
-                <motion.div
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: 22 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: prefersReducedMotion ? 0 : 0.58, ease: easeLux }}
-                  className={cn(reverse ? "lg:order-2" : "lg:order-1")}
-                >
-                  <BrowserChrome hostname={hostname}>
-                    <ProjectScreenshot url={project.url} alt={project.screenshotAlt} />
-                  </BrowserChrome>
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={cn(
-                      "mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold sm:w-auto sm:px-8",
-                      "border border-white/[0.12] bg-white/[0.05] text-foreground/95 backdrop-blur-sm",
-                      "transition-colors duration-300 hover:border-accent-start/40 hover:text-accent-start"
-                    )}
-                  >
-                    Open live site
-                    <ExternalLink className="size-4" strokeWidth={2.25} aria-hidden />
-                  </a>
-                </motion.div>
-
-                <motion.article
-                  initial={prefersReducedMotion ? false : { opacity: 0, y: 22 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{
-                    duration: prefersReducedMotion ? 0 : 0.58,
-                    delay: prefersReducedMotion ? 0 : 0.06,
-                    ease: easeLux,
-                  }}
-                  className={cn("min-w-0", reverse ? "lg:order-1" : "lg:order-2")}
-                >
-                  <p className="text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-accent-start/90">
-                    {project.category}
-                  </p>
-                  <h2 className="mt-3 text-[clamp(1.75rem,2vw+0.85rem,2.35rem)] font-bold leading-[1.12] tracking-[-0.03em] text-white">
-                    {project.title}
-                  </h2>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className={cn(
-                          "rounded-full border border-white/[0.09] bg-white/[0.04] px-3 py-1",
-                          "text-[0.75rem] font-medium tracking-[0.02em] text-muted"
-                        )}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="mt-7 text-[0.98125rem] leading-[1.88] text-muted/92 sm:text-[1rem] sm:leading-[1.9]">
-                    {project.body}
-                  </p>
-                </motion.article>
-              </div>
-            </div>
-          </section>
-        );
-      })}
+            <p className="text-[0.75rem] font-semibold uppercase tracking-[0.16em] text-accent-start">
+              Next step
+            </p>
+            <p className="mx-auto mt-3 max-w-md text-xl font-semibold tracking-[-0.02em] text-white">
+              Need something built at this level?
+            </p>
+            <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-muted">
+              AI workflows, full stack apps, CMS platforms, and eCommerce—I ship production-ready.
+            </p>
+            <Link
+              href="/contact"
+              className={cn(
+                "mt-7 inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-8 text-sm font-semibold",
+                "bg-[linear-gradient(108deg,#7cf7d4_0%,#d9ff63_100%)] text-[#061414]",
+                "shadow-[0_12px_32px_-12px_rgb(124_247_212/0.4)] transition-[filter] hover:brightness-[1.05]"
+              )}
+            >
+              Start a conversation
+              <ArrowUpRight className="size-4" strokeWidth={2.25} aria-hidden />
+            </Link>
+          </div>
+        </motion.div>
+      </div>
     </main>
   );
 }
